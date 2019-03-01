@@ -1,7 +1,33 @@
 # codeigniter-yandex-mail
-codeigniter yandex mail
-usage 
+codeigniter yandex mail <br/>
+usage <br/>
 $send = send_email("toEmail", "Subject", "message");
+
+function send_email($toEmail = "", $subject = "", $message = ""){
+    
+    $t = &get_instance();
+
+    $config['protocol'] = 'smtp';
+    $config['smtp_crypto'] = 'ssl';
+    $config['smtp_host'] = 'smtp.yandex.com';
+    $config['smtp_port'] = '465';
+    $config['smtp_user'] = 'mail@yandex.com'; //mail adres
+    $config['smtp_pass'] = '';                //password
+    $config['mailtype'] = 'html';
+    $config['charset'] = 'utf-8';
+    $config['wordwrap'] = TRUE;
+    $config['newline'] = "\r\n";
+
+    $t->load->library("email", $config);
+    
+    $t->email->from('mail@yandex.com', 'Title');
+    $t->email->to($toEmail);
+    $t->email->subject($subject);
+    $t->email->message($message);
+
+    return $t->email->send();
+
+}
 
 
 
